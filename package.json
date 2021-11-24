@@ -1,8 +1,8 @@
 {
+  "homepage": ".",
   "name": "freedomcalculator",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "http://creanick.github.io/freedomcalculator",
+  "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
@@ -23,7 +23,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "serve": "serve build"
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +45,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3"
+    "gh-pages": "^3.2.3",
+    "serve": "^13.0.2"
   }
 }
