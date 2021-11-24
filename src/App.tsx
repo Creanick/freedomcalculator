@@ -4,7 +4,7 @@ function App() {
   return (
     <div className="App">
       <h1>Financial Freedom Calculator</h1>
-      <h2>Coming Soon</h2>
+      <h2>Under Development</h2>
     </div>
   );
 }
