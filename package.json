@@ -1,5 +1,5 @@
 {
-  "homepage": "https://creanick.github.io/freedomcalculator",
+  "homepage": "http://creanick.github.io/freedomcalculator",
   "name": "freedomcalculator",
   "version": "0.1.0",
   "private": false,
@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && cp CNAME build/CNAME",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
