@@ -41,7 +41,7 @@ const App = () => {
         <LabeledInput id="expense" inputElement={<Input type="number" placeholder="Ex:50000" id="expense" />}>Monthly Expense</LabeledInput>
         <LabeledInput id="current-age" inputElement={<Input type="number" placeholder="Ex:20" id="current-age" />}>Current Age</LabeledInput>
         <LabeledInput id="freedom-age" inputElement={<Input type="number" placeholder="Ex:40" id="freedom-age" value={40} />}>Freedom Age</LabeledInput>
-        <LabeledInput id="life-expentancy" inputElement={<Input type="number" placeholder="Ex:80" id="life-expentancy" value={80} />}>Life Expentancy</LabeledInput>
+        <LabeledInput id="life-expectancy" inputElement={<Input type="number" placeholder="Ex:80" id="life-expectancy" value={80} />}>Life Expectancy</LabeledInput>
         <LabeledInput id="inflation-rate" inputElement={<Input type="number" placeholder="Ex:6%" id="inflation-rate" value={6} />}>Inflation Rate</LabeledInput>
         <LabeledInput id="post-freedom-return" inputElement={<Input type="number" placeholder="Ex:10%" id="post-freedom-return" value={10} />}>Post Freedom Return</LabeledInput>
         <Button>Calculate</Button>
