@@ -1,0 +1,18 @@
+name: Check and Merge To Master
+on:
+  push:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Use Nodejs 12.x
+        uses: actions/setup-node@v2
+        with: 
+          node-version: 12.x
+      - run: npm install
+      - run: npm test
+      - run: npm run build --if-present
+        
