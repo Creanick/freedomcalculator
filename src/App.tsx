@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "./components/Button/Button";
+import Input from "./components/Input/Input";
 import LabeledInput from "./components/LabeledInput/LabeledInput";
 
 const Wrapper = styled.div`
@@ -29,12 +30,12 @@ const App = () => {
     <Wrapper>
       <h1>Financial Freedom Calculator</h1>
       <InputContainer >
-        <LabeledInput id="expense" hint="Ex:50000" type="number">Monthly Expense</LabeledInput>
-        <LabeledInput id="current-age" hint="Ex:20" type="number">Current Age</LabeledInput>
-        <LabeledInput id="freedom-age" hint="Ex:40" type="number">Freedom Age</LabeledInput>
-        <LabeledInput id="life-expentancy" hint="Ex:80" value="80" type="number">Life Expentancy</LabeledInput>
-        <LabeledInput id="inflation-rate" hint="Ex: 6%" value="6" type="number">Inflation Rate</LabeledInput>
-        <LabeledInput id="post-freedom-return" hint="Ex: 10%" value="10" type="number">Post Freedom Return</LabeledInput>
+        <LabeledInput id="expense" inputElement={<Input type="number" placeholder="Ex:50000" id="expense" />}>Monthly Expense</LabeledInput>
+        <LabeledInput id="current-age" inputElement={<Input type="number" placeholder="Ex:20" id="current-age" />}>Current Age</LabeledInput>
+        <LabeledInput id="freedom-age" inputElement={<Input type="number" placeholder="Ex:40" id="freedom-age" value={40} />}>Freedom Age</LabeledInput>
+        <LabeledInput id="life-expentancy" inputElement={<Input type="number" placeholder="Ex:80" id="life-expentancy" value={80} />}>Life Expentancy</LabeledInput>
+        <LabeledInput id="inflation-rate" inputElement={<Input type="number" placeholder="Ex:6%" id="inflation-rate" value={6} />}>Inflation Rate</LabeledInput>
+        <LabeledInput id="post-freedom-return" inputElement={<Input type="number" placeholder="Ex:10%" id="post-freedom-return" value={10} />}>Post Freedom Return</LabeledInput>
         <Button>Calculate</Button>
         <p>Total Fund Needed</p>
         <p className="total-fund">0</p>

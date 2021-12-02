@@ -1,6 +1,5 @@
-import { FunctionComponent, SyntheticEvent } from 'react'
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import Input from '../Input/Input'
 
 const Wrapper = styled.div`
     text-align: left;
@@ -9,20 +8,18 @@ const Wrapper = styled.div`
         display: block;
         font-weight: 600;
         font-size: 16px;
+        cursor: pointer;
     }
 `;
 interface Props {
+    inputElement: JSX.Element
     id: string
-    type?: string
-    hint?: string
-    value?: string
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
-const LabeledInput: FunctionComponent<Props> = ({ id, children, type = "text", hint, value, onChange }) => {
+const LabeledInput: FunctionComponent<Props> = ({ id, children, inputElement }) => {
     return (
         <Wrapper>
             <label htmlFor={id}>{children}</label>
-            <Input type={type} id={id} name={id} placeholder={hint} value={value} onChange={onChange} />
+            {inputElement}
         </Wrapper>
     )
 }
