@@ -62,24 +62,36 @@ const App = () => {
       const lifeExpectancyValue = Number(values.lifeExpectancy);
       const inflationRateValue = Number(values.inflationRate);
       const postFreedomReturnValue = Number(values.postFreedomReturn);
-      if (expenseValue < 0) {
+      if (isNaN(expenseValue)) {
+        errors.expense = "Monthly Expense must be number";
+      }
+      else if (expenseValue < 0) {
         errors.expense = "Expense must be greater than or equal to 0";
       }
-      if (currentAgeValue < 1) {
+      if (isNaN(currentAgeValue)) {
+        errors.currentAge = "Current Age must be number";
+      }
+      else if (currentAgeValue < 1) {
         errors.currentAge = "Current Age must be greater than 0";
       } else if (currentAgeValue >= freedomAgeValue) {
         errors.currentAge = "Current Age must be less than freedom age";
       } else if (currentAgeValue >= lifeExpectancyValue) {
         errors.currentAge = "Current Age must be less than life expentancy";
       }
-      if (freedomAgeValue < 1) {
+      if (isNaN(freedomAgeValue)) {
+        errors.freedomAge = "Freedom Age must be number";
+      }
+      else if (freedomAgeValue < 1) {
         errors.freedomAge = "Freedom Age must be greater than 0";
       } else if (freedomAgeValue <= currentAgeValue) {
         errors.freedomAge = "Freedom Age must be greater than current age";
       } else if (freedomAgeValue > lifeExpectancyValue) {
         errors.freedomAge = "Freedom age must be less than or equal to life expectancy";
       }
-      if (lifeExpectancyValue < 1) {
+      if (isNaN(lifeExpectancyValue)) {
+        errors.lifeExpectancy = "Life Expectancy must be number";
+      }
+      else if (lifeExpectancyValue < 1) {
         errors.lifeExpectancy = "Life Expentancy must be greater than 0";
       } else if (lifeExpectancyValue <= currentAgeValue) {
         errors.lifeExpectancy = "Life Expectancy must be greater than current age";
