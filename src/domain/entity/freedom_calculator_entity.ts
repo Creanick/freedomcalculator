@@ -1,4 +1,4 @@
-interface CalcuateTotalFundParams {
+export interface CalcuateTotalFundParams {
     monthlyExpense: number
     currentAge: number
     freedomAge: number

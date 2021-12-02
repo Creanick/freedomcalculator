@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Button from "./components/Button/Button";
 import Input from "./components/Input/Input";
 import LabeledInput from "./components/LabeledInput/LabeledInput";
+import FreedomCalculatorEntity, { CalcuateTotalFundParams } from "./domain/entity/freedom_calculator_entity";
 
 const Wrapper = styled.div`
   display: flex;
@@ -107,7 +108,20 @@ const App = () => {
       return errors;
     },
     onSubmit: values => {
-      console.log(values);
+      const params: CalcuateTotalFundParams = {
+        monthlyExpense: Number(values.expense),
+        currentAge: Number(values.currentAge),
+        freedomAge: Number(values.freedomAge),
+        lifeExpectancy: Number(values.lifeExpectancy),
+        inflationRate: Number(values.inflationRate),
+        postFreedomReturn: Number(values.postFreedomReturn),
+      }
+      try {
+        const totalFundValue = FreedomCalculatorEntity.calculateTotalFund(params);
+        setTotalFund(totalFundValue);
+      } catch (error) {
+        console.error("Total Fund Calculation Error");
+      }
     }
   })
   const { currentAge, expense, freedomAge, inflationRate, lifeExpectancy, postFreedomReturn } = formik.values;
