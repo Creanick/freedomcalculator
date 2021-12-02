@@ -9,13 +9,21 @@ const Wrapper = styled.div`
   align-items: center;
   h1{
     font-weight: 600;
+    text-align: center;
   }
 `;
+const inputContainerWidth = "300px";
 const InputContainer = styled.form`
   /* border: 1px solid black; */
-  max-width: 300px;
+  box-sizing: border-box;
+  width: ${inputContainerWidth};
+  max-width: ${inputContainerWidth};
+  padding: 20px;
   display: grid;
   gap:18px;
+  @media screen and (max-width:${inputContainerWidth}){
+    width:100%;
+  }
   p{
     font-weight: 600;
     margin:0;
