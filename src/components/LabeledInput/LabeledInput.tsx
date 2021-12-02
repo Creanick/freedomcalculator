@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import ErrorLabel from '../ErrorLabel/ErrorLabel';
 
 const Wrapper = styled.div`
     text-align: left;
@@ -14,12 +15,15 @@ const Wrapper = styled.div`
 interface Props {
     inputElement: JSX.Element
     id: string
+    errorMessage?: string
+    showError?: boolean
 }
-const LabeledInput: FunctionComponent<Props> = ({ id, children, inputElement }) => {
+const LabeledInput: FunctionComponent<Props> = ({ id, children, inputElement, errorMessage, showError }) => {
     return (
         <Wrapper>
             <label htmlFor={id}>{children}</label>
             {inputElement}
+            <ErrorLabel message={errorMessage} show={showError} />
         </Wrapper>
     )
 }
