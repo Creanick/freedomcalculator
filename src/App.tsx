@@ -41,12 +41,12 @@ const InputContainer = styled.form`
 const App = () => {
   const formik = useFormik({
     initialValues: {
-      expense: "",
-      currentAge: "",
-      freedomAge: "",
-      lifeExpectancy: "80",
-      inflationRate: "6",
-      postFreedomReturn: "10"
+      expense: 50000,
+      currentAge: 20,
+      freedomAge: 40,
+      lifeExpectancy: 80,
+      inflationRate: 6,
+      postFreedomReturn: 10
     },
     validate: values => {
       const errors: FormikErrors<{
@@ -110,21 +110,11 @@ const App = () => {
       return errors;
     },
     onSubmit: values => {
-      const params: CalcuateTotalFundParams = {
-        monthlyExpense: Number(values.expense),
-        currentAge: Number(values.currentAge),
-        freedomAge: Number(values.freedomAge),
-        lifeExpectancy: Number(values.lifeExpectancy),
-        inflationRate: Number(values.inflationRate),
-        postFreedomReturn: Number(values.postFreedomReturn),
-      }
+      const params: CalcuateTotalFundParams = { ...values, monthlyExpense: values.expense };
       try {
-        const totalFundValue = FreedomCalculatorEntity.calculateTotalFund(params);
-        const monthlyExpenseAtFreedom = FreedomCalculatorEntity.monthlyExpenseAtFreedom({ currentAge: params.currentAge, currentMonthlyExpense: params.monthlyExpense, freedomAge: params.freedomAge, inflationRate: params.inflationRate });
-        const totalImmortalFund = FreedomCalculatorEntity.calculateTotalImmortalFund(params);
-        setTotalImmortalFund(totalImmortalFund);
-        setMonthlyExpenseAtFreedom(monthlyExpenseAtFreedom);
-        setTotalFund(totalFundValue);
+        setMonthlyExpenseAtFreedom(FreedomCalculatorEntity.monthlyExpenseAtFreedom(params));
+        setTotalImmortalFund(FreedomCalculatorEntity.calculateTotalImmortalFund(params));
+        setTotalFund(FreedomCalculatorEntity.calculateTotalFund(params));
       } catch (error) {
         console.error("Total Fund Calculation Error");
       }
