@@ -17,7 +17,6 @@ const Wrapper = styled.div`
 `;
 const inputContainerWidth = "300px";
 const InputContainer = styled.form`
-  /* border: 1px solid black; */
   box-sizing: border-box;
   width: ${inputContainerWidth};
   max-width: ${inputContainerWidth};
@@ -57,54 +56,31 @@ const App = () => {
         inflationRate: string;
         postFreedomReturn: string;
       }> = {};
-      const expenseValue = Number(values.expense);
-      const currentAgeValue = Number(values.currentAge);
-      const freedomAgeValue = Number(values.freedomAge);
-      const lifeExpectancyValue = Number(values.lifeExpectancy);
-      const inflationRateValue = Number(values.inflationRate);
-      const postFreedomReturnValue = Number(values.postFreedomReturn);
-      if (isNaN(expenseValue)) {
-        errors.expense = "Monthly Expense must be number";
-      }
-      else if (expenseValue < 0) {
+      if (values.expense < 0) {
         errors.expense = "Expense must be greater than or equal to 0";
       }
-      if (isNaN(currentAgeValue)) {
-        errors.currentAge = "Current Age must be number";
-      }
-      else if (currentAgeValue < 1) {
+      if (values.currentAge < 1) {
         errors.currentAge = "Current Age must be greater than 0";
-      } else if (currentAgeValue >= freedomAgeValue) {
+      } else if (values.currentAge >= values.freedomAge) {
         errors.currentAge = "Current Age must be less than freedom age";
-      } else if (currentAgeValue >= lifeExpectancyValue) {
+      } else if (values.currentAge >= values.lifeExpectancy) {
         errors.currentAge = "Current Age must be less than life expentancy";
       }
-      if (isNaN(freedomAgeValue)) {
-        errors.freedomAge = "Freedom Age must be number";
-      }
-      else if (freedomAgeValue < 1) {
+      if (values.freedomAge < 1) {
         errors.freedomAge = "Freedom Age must be greater than 0";
-      } else if (freedomAgeValue <= currentAgeValue) {
+      } else if (values.freedomAge <= values.currentAge) {
         errors.freedomAge = "Freedom Age must be greater than current age";
-      } else if (freedomAgeValue > lifeExpectancyValue) {
+      } else if (values.freedomAge > values.lifeExpectancy) {
         errors.freedomAge = "Freedom age must be less than or equal to life expectancy";
       }
-      if (isNaN(lifeExpectancyValue)) {
-        errors.lifeExpectancy = "Life Expectancy must be number";
-      }
-      else if (lifeExpectancyValue < 1) {
+      if (values.lifeExpectancy < 1) {
         errors.lifeExpectancy = "Life Expentancy must be greater than 0";
-      } else if (lifeExpectancyValue <= currentAgeValue) {
+      } else if (values.lifeExpectancy <= values.currentAge) {
         errors.lifeExpectancy = "Life Expectancy must be greater than current age";
-      } else if (lifeExpectancyValue < freedomAgeValue) {
+      } else if (values.lifeExpectancy < values.freedomAge) {
         errors.lifeExpectancy = "Life Expectancy must greater than or equal to freedom age";
       }
-      if (isNaN(inflationRateValue)) {
-        errors.inflationRate = "Inflaiton Rate must be number";
-      }
-      if (isNaN(postFreedomReturnValue)) {
-        errors.postFreedomReturn = "Post Freedom Return Rate must be number";
-      } else if (postFreedomReturnValue < inflationRateValue) {
+      if (values.postFreedomReturn < values.inflationRate) {
         errors.postFreedomReturn = "Post Freedom Return Rate must be greater than or equals to inflation rate";
       }
       return errors;
