@@ -104,6 +104,8 @@ const App = () => {
       }
       if (isNaN(postFreedomReturnValue)) {
         errors.postFreedomReturn = "Post Freedom Return Rate must be number";
+      } else if (postFreedomReturnValue < inflationRateValue) {
+        errors.postFreedomReturn = "Post Freedom Return Rate must be greater than or equals to inflation rate";
       }
       return errors;
     },
@@ -118,6 +120,10 @@ const App = () => {
       }
       try {
         const totalFundValue = FreedomCalculatorEntity.calculateTotalFund(params);
+        const monthlyExpenseAtFreedom = FreedomCalculatorEntity.monthlyExpenseAtFreedom({ currentAge: params.currentAge, currentMonthlyExpense: params.monthlyExpense, freedomAge: params.freedomAge, inflationRate: params.inflationRate });
+        const totalImmortalFund = FreedomCalculatorEntity.calculateTotalImmortalFund(params);
+        setTotalImmortalFund(totalImmortalFund);
+        setMonthlyExpenseAtFreedom(monthlyExpenseAtFreedom);
         setTotalFund(totalFundValue);
       } catch (error) {
         console.error("Total Fund Calculation Error");
@@ -126,6 +132,8 @@ const App = () => {
   })
   const { currentAge, expense, freedomAge, inflationRate, lifeExpectancy, postFreedomReturn } = formik.values;
   const [totalFund, setTotalFund] = useState(0);
+  const [monthlyExpenseAtFreedom, setMonthlyExpenseAtFreedom] = useState(0);
+  const [totalImmortalFund, setTotalImmortalFund] = useState(0);
   return (
     <Wrapper>
       <h1 className="title">Financial Freedom Calculator</h1>
@@ -145,8 +153,12 @@ const App = () => {
 
         <Button type="submit">Calculate</Button>
         <div className="total-fund-container">
+          <p>Monthly Expense At Freedom Age</p>
+          <p className="total-fund">{Math.round(monthlyExpenseAtFreedom)}</p>
+          <p>Total Fund Needed without Life Expectancy</p>
+          <p className="total-fund">{Math.round(totalImmortalFund)}</p>
           <p>Total Fund Needed</p>
-          <p className="total-fund">{totalFund}</p>
+          <p className="total-fund">{Math.round(totalFund)}</p>
         </div>
       </InputContainer>
     </Wrapper>
