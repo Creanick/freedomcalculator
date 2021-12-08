@@ -63,27 +63,27 @@ const App = () => {
       }
       if (values.currentAge < 1) {
         errors.currentAge = "Current Age must be greater than 0";
-      } else if (values.currentAge >= values.freedomAge) {
-        errors.currentAge = "Current Age must be less than freedom age";
-      } else if (values.currentAge >= values.lifeExpectancy) {
-        errors.currentAge = "Current Age must be less than life expentancy";
       }
       if (values.freedomAge < 1) {
         errors.freedomAge = "Freedom Age must be greater than 0";
-      } else if (values.freedomAge <= values.currentAge) {
-        errors.freedomAge = "Freedom Age must be greater than current age";
-      } else if (values.freedomAge > values.lifeExpectancy) {
-        errors.freedomAge = "Freedom age must be less than or equal to life expectancy";
       }
       if (values.lifeExpectancy < 1) {
         errors.lifeExpectancy = "Life Expentancy must be greater than 0";
-      } else if (values.lifeExpectancy <= values.currentAge) {
-        errors.lifeExpectancy = "Life Expectancy must be greater than current age";
-      } else if (values.lifeExpectancy < values.freedomAge) {
-        errors.lifeExpectancy = "Life Expectancy must greater than or equal to freedom age";
       }
-      if (values.postFreedomReturn < values.inflationRate) {
-        errors.postFreedomReturn = "Post Freedom Return Rate must be greater than or equals to inflation rate";
+      if (values.inflationRate < 0) {
+        errors.inflationRate = "Inflation rate must be positive";
+      }
+      if (values.postFreedomReturn < 0) {
+        errors.postFreedomReturn = "Post Freedom Return must be positive";
+      }
+      if ((values.freedomAge - values.currentAge) < 0) {
+        errors.freedomAge = "Freedom Age must be greater or equal to current age";
+      }
+      if ((values.lifeExpectancy - values.freedomAge) < 0) {
+        errors.lifeExpectancy = "Life Expectancy must be greater or equal to freedom age"
+      }
+      if (values.postFreedomReturn <= values.inflationRate) {
+        errors.postFreedomReturn = "Post Freedom Return Rate must be greater than inflation rate";
       }
       return errors;
     },
@@ -109,14 +109,14 @@ const App = () => {
         })
         setMonthlyExpenseAtFreedom(monthlyExpenseAtFreedom);
         setTotalImmortalFund(totalImmortalFreedomFund);
-        setTotalFund(totalMortalFreedomFund);
+        setTotalMortalFund(totalMortalFreedomFund);
       } catch (error) {
         console.error("Total Fund Calculation Error");
       }
     }
   })
   const { currentAge, expense, freedomAge, inflationRate, lifeExpectancy, postFreedomReturn } = formik.values;
-  const [totalFund, setTotalFund] = useState(0);
+  const [totalMortalFund, setTotalMortalFund] = useState(0);
   const [monthlyExpenseAtFreedom, setMonthlyExpenseAtFreedom] = useState(0);
   const [totalImmortalFund, setTotalImmortalFund] = useState(0);
   return (
@@ -136,14 +136,14 @@ const App = () => {
 
         <LabeledInput id="postFreedomReturn" showError={formik.touched.postFreedomReturn} errorMessage={formik.errors.postFreedomReturn} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="postFreedomReturn" value={postFreedomReturn} onChange={formik.handleChange} />}>Post Freedom Return</LabeledInput>
 
-        <Button type="submit">Calculate</Button>
+        <Button type="submit" disabled={!formik.isValid}>Calculate</Button>
         <div className="total-fund-container">
           <p>Monthly Expense At Freedom Age</p>
           <p className="total-fund">{Math.round(monthlyExpenseAtFreedom)}</p>
           <p>Total Fund Needed without Life Expectancy</p>
           <p className="total-fund">{Math.round(totalImmortalFund)}</p>
           <p>Total Fund Needed</p>
-          <p className="total-fund">{Math.round(totalFund)}</p>
+          <p className="total-fund">{Math.round(totalMortalFund)}</p>
         </div>
       </InputContainer>
     </Wrapper>
