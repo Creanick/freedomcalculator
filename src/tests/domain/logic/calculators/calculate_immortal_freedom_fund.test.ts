@@ -50,8 +50,8 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
     //should throw error when post freedom return and inflaiton is both 0
     test("should throw error when post freedom return and inflatin rate is both 0", () => {
         const params: CalculateFreedomFund = {
-            inflationRate: 24,
-            postFreedomReturn: 24,
+            inflationRate: 0,
+            postFreedomReturn: 0,
             monthlyExpense: 25232
         }
         expect(() => calculateImmortalFreedomFund(params)).toThrow();

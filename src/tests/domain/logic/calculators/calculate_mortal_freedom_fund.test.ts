@@ -149,5 +149,16 @@ describe('Calculate Mortal Freedom Fund function tests => ', () => {
             const expectedTotalFund = 3551506;
             expect(totalFund).toBe(expectedTotalFund);
         })
+        test("#5 Test when total years is 22", () => {
+            const params: CalculateFreedomFund = {
+                monthlyExpense: 25600,
+                totalYears: 22,
+                inflationRate: 0,
+                postFreedomReturn: 1
+            }
+            const totalFund = calculateMortalFreedomFund(params);
+            const expectedTotalFund = 6039669;
+            expect(totalFund).toBe(expectedTotalFund);
+        })
     })
 })
