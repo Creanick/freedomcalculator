@@ -1,8 +1,6 @@
-export interface CalculateMortalFreedomFund {
-    monthlyExpense: number
+import { CalculateImmortalFreedomFund } from "./calculate_immortal_freedom_fund";
+export interface CalculateMortalFreedomFund extends CalculateImmortalFreedomFund {
     totalYears: number
-    inflationRate: number
-    postFreedomReturn: number
 }
 const calculateMortalFreedomFund = (params: CalculateMortalFreedomFund) => {
     const { monthlyExpense, totalYears, inflationRate, postFreedomReturn } = params;
