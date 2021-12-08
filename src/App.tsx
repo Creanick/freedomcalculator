@@ -4,9 +4,9 @@ import styled from "styled-components";
 import Button from "./components/Button/Button";
 import Input from "./components/Input/Input";
 import LabeledInput from "./components/LabeledInput/LabeledInput";
-import FreedomCalculatorEntity, { CalcuateTotalFundParams } from "./domain/entity/freedom_calculator_entity";
 import calculateCompoundedFutureMonthlyExpense from "./domain/logic/calculators/calculate_compounded_future_monthly_expense";
 import calculateImmortalFreedomFund from "./domain/logic/calculators/calculate_immortal_freedom_fund";
+import calculateMortalFreedomFund from "./domain/logic/calculators/calculate_mortal_freedom_fund";
 
 const Wrapper = styled.div`
   display: flex;
@@ -88,7 +88,7 @@ const App = () => {
       return errors;
     },
     onSubmit: values => {
-      const params: CalcuateTotalFundParams = { ...values, monthlyExpense: values.expense };
+      const params = { ...values, monthlyExpense: values.expense };
       try {
         const monthlyExpenseAtFreedom = calculateCompoundedFutureMonthlyExpense({
           currentAge: params.currentAge,
@@ -101,9 +101,15 @@ const App = () => {
           postFreedomReturn: params.postFreedomReturn,
           monthlyExpense: monthlyExpenseAtFreedom
         });
+        const totalMortalFreedomFund = calculateMortalFreedomFund({
+          inflationRate: params.inflationRate,
+          monthlyExpense: monthlyExpenseAtFreedom,
+          postFreedomReturn: params.postFreedomReturn,
+          totalYears: params.lifeExpectancy - params.freedomAge
+        })
         setMonthlyExpenseAtFreedom(monthlyExpenseAtFreedom);
         setTotalImmortalFund(totalImmortalFreedomFund);
-        setTotalFund(FreedomCalculatorEntity.calculateTotalFund(params));
+        setTotalFund(totalMortalFreedomFund);
       } catch (error) {
         console.error("Total Fund Calculation Error");
       }
