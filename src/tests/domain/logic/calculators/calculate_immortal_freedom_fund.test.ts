@@ -107,5 +107,15 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
             const expectedFund = 816000
             expect(fund).toBe(expectedFund);
         })
+        test("#4 Test", () => {
+            const params: CalculateImmortalFreedomFund = {
+                inflationRate: 6,
+                postFreedomReturn: 10,
+                monthlyExpense: 160357
+            }
+            const fund = calculateImmortalFreedomFund(params);
+            const expectedFund = 48107100
+            expect(fund).toBe(expectedFund);
+        })
     })
 })
