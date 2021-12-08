@@ -1,9 +1,10 @@
-import calculateImmortalFreedomFund, { CalculateImmortalFreedomFund } from "../../../../domain/logic/calculators/calculate_immortal_freedom_fund";
+import { CalculateFreedomFund } from "../../../../domain/logic/calculators/calculate_freedom_fund";
+import calculateImmortalFreedomFund from "../../../../domain/logic/calculators/calculate_immortal_freedom_fund";
 
 describe('Calculate Immortal Freedom Fund Tests', () => {
     //should throw error when monthly expense is negetive
     test("should throw error when monthly expense is negetive", () => {
-        const params: CalculateImmortalFreedomFund = {
+        const params: CalculateFreedomFund = {
             inflationRate: 6,
             postFreedomReturn: 52,
             monthlyExpense: -25232
@@ -12,7 +13,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
     })
     //should throw error when inflation rate is negetive
     test("should throw error when inflation rate is negetive", () => {
-        const params: CalculateImmortalFreedomFund = {
+        const params: CalculateFreedomFund = {
             inflationRate: -6,
             postFreedomReturn: 52,
             monthlyExpense: 25232
@@ -21,7 +22,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
     })
     //should throw error when post freedom return is negetive
     test("should throw error when post freedom return is negetive", () => {
-        const params: CalculateImmortalFreedomFund = {
+        const params: CalculateFreedomFund = {
             inflationRate: 14,
             postFreedomReturn: -52,
             monthlyExpense: 25232
@@ -30,7 +31,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
     })
     //should throw error when post freedom return is less than inflation rate
     test("should throw error when post freedom return is less than inflation rate", () => {
-        const params: CalculateImmortalFreedomFund = {
+        const params: CalculateFreedomFund = {
             inflationRate: 14,
             postFreedomReturn: 4,
             monthlyExpense: 25232
@@ -39,7 +40,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
     })
     //should throw error when post freedom return and inflation rate is same
     test("should throw error when post freedom return and inflation rate is same", () => {
-        const params: CalculateImmortalFreedomFund = {
+        const params: CalculateFreedomFund = {
             inflationRate: 24,
             postFreedomReturn: 24,
             monthlyExpense: 25232
@@ -48,7 +49,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
     })
     //should throw error when post freedom return and inflaiton is both 0
     test("should throw error when post freedom return and inflatin rate is both 0", () => {
-        const params: CalculateImmortalFreedomFund = {
+        const params: CalculateFreedomFund = {
             inflationRate: 24,
             postFreedomReturn: 24,
             monthlyExpense: 25232
@@ -57,7 +58,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
     })
     //should return fund 0 when monthly expense is 0
     test("should return freedom fund 0 when monthly expense is 0", () => {
-        const params: CalculateImmortalFreedomFund = {
+        const params: CalculateFreedomFund = {
             inflationRate: 16,
             postFreedomReturn: 24,
             monthlyExpense: 0
@@ -68,7 +69,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
     //should return c0rrect fund for correct monthlyexpense,inflation rate and post freedom return
     describe("should return correct freedom fund for different params", () => {
         test("#1 Test", () => {
-            const params: CalculateImmortalFreedomFund = {
+            const params: CalculateFreedomFund = {
                 inflationRate: 0,
                 postFreedomReturn: 1,
                 monthlyExpense: 5000
@@ -78,7 +79,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
             expect(fund).toBe(expectedFund);
         })
         test("#2 Test", () => {
-            const params: CalculateImmortalFreedomFund = {
+            const params: CalculateFreedomFund = {
                 inflationRate: 6,
                 postFreedomReturn: 7,
                 monthlyExpense: 4500
@@ -88,7 +89,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
             expect(fund).toBe(expectedFund);
         })
         test("#3 Test", () => {
-            const params: CalculateImmortalFreedomFund = {
+            const params: CalculateFreedomFund = {
                 inflationRate: 12,
                 postFreedomReturn: 18,
                 monthlyExpense: 3560
@@ -98,7 +99,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
             expect(fund).toBe(expectedFund);
         })
         test("#3 Test", () => {
-            const params: CalculateImmortalFreedomFund = {
+            const params: CalculateFreedomFund = {
                 inflationRate: 5,
                 postFreedomReturn: 55,
                 monthlyExpense: 34000
@@ -108,7 +109,7 @@ describe('Calculate Immortal Freedom Fund Tests', () => {
             expect(fund).toBe(expectedFund);
         })
         test("#4 Test", () => {
-            const params: CalculateImmortalFreedomFund = {
+            const params: CalculateFreedomFund = {
                 inflationRate: 6,
                 postFreedomReturn: 10,
                 monthlyExpense: 160357
