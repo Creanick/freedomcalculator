@@ -5,6 +5,7 @@ import Button from "./components/Button/Button";
 import Input from "./components/Input/Input";
 import LabeledInput from "./components/LabeledInput/LabeledInput";
 import FreedomCalculatorEntity, { CalcuateTotalFundParams } from "./domain/entity/freedom_calculator_entity";
+import calculateCompoundedFutureMonthlyExpense from "./domain/logic/calculators/calculate_compounded_future_monthly_expense";
 
 const Wrapper = styled.div`
   display: flex;
@@ -88,7 +89,12 @@ const App = () => {
     onSubmit: values => {
       const params: CalcuateTotalFundParams = { ...values, monthlyExpense: values.expense };
       try {
-        setMonthlyExpenseAtFreedom(FreedomCalculatorEntity.monthlyExpenseAtFreedom(params));
+        setMonthlyExpenseAtFreedom(calculateCompoundedFutureMonthlyExpense({
+          currentAge: params.currentAge,
+          futureAge: params.freedomAge,
+          currentMonthlyExpense: params.monthlyExpense,
+          inflationRate: params.inflationRate
+        }));
         setTotalImmortalFund(FreedomCalculatorEntity.calculateTotalImmortalFund(params));
         setTotalFund(FreedomCalculatorEntity.calculateTotalFund(params));
       } catch (error) {
