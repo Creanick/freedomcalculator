@@ -10,10 +10,20 @@ import calculateCompoundedFutureMonthlyExpense from "./domain/logic/calculators/
 import calculateImmortalFreedomFund from "./domain/logic/calculators/calculate_immortal_freedom_fund";
 import calculateMortalFreedomFund from "./domain/logic/calculators/calculate_mortal_freedom_fund";
 
+const sectionBreakPoint = "850px"
 const Wrapper = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
+  //desktop style
+  @media screen and (min-width:${sectionBreakPoint}){
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+const InputSection = styled.section`
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
 `;
 const inputContainerWidth = "300px";
 const InputContainer = styled.form`
@@ -21,6 +31,7 @@ const InputContainer = styled.form`
   width: ${inputContainerWidth};
   max-width: ${inputContainerWidth};
   padding: 20px;
+  padding-bottom: 40px;
   display: grid;
   gap:18px;
   @media screen and (max-width:${inputContainerWidth}){
@@ -28,15 +39,19 @@ const InputContainer = styled.form`
   }
 `;
 const ResultSection = styled.section`
-  background-color: dodgerblue;
+  background-image: linear-gradient(0deg, #aad4ff, transparent);
   padding: 80px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (min-width:${sectionBreakPoint}){
+    background-image: linear-gradient(270deg, #aad4ff, transparent);
+  }
 `;
 const FundContainer = styled.div`
-border-radius: 4px;
+  border-radius: 4px;
   background-color: white;
+  box-shadow: 12px 13px 39px -7px #0000001c;
   padding: 24px;
   max-width: 300px;
   display: grid;
@@ -133,7 +148,7 @@ const App = () => {
 
   return (
     <Wrapper>
-      <section className="input-section">
+      <InputSection>
         <Header />
         <InputContainer onSubmit={formik.handleSubmit}>
 
@@ -151,7 +166,7 @@ const App = () => {
 
           <Button type="submit" disabled={!formik.isValid}>Calculate</Button>
         </InputContainer>
-      </section>
+      </InputSection>
       <ResultSection>
         <FundContainer>
           <Fund amount={totalMortalFund}>Total Fund Needed At {submittedFreedomAge} years age for next {submittedLifeExpectancy - submittedFreedomAge} years</Fund>
