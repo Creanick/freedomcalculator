@@ -2,7 +2,7 @@ import { FormikErrors, useFormik } from "formik";
 import { useState } from "react";
 import styled from "styled-components";
 import Button from "./components/Button/Button";
-import Fund from "./components/Fund/Fund";
+import Fund, { FundPriority } from "./components/Fund/Fund";
 import Header from "./components/Header/Header";
 import Input from "./components/Input/Input";
 import LabeledInput from "./components/LabeledInput/LabeledInput";
@@ -52,7 +52,7 @@ const FundContainer = styled.div`
   border-radius: 4px;
   background-color: white;
   box-shadow: 12px 13px 39px -7px #0000001c;
-  padding: 24px;
+  padding: 40px;
   max-width: 300px;
   display: grid;
   gap: 16px;
@@ -169,7 +169,7 @@ const App = () => {
       </InputSection>
       <ResultSection>
         <FundContainer>
-          <Fund amount={totalMortalFund}>Total Fund Needed At {submittedFreedomAge} years age for next {submittedLifeExpectancy - submittedFreedomAge} years</Fund>
+          <Fund priority={FundPriority.primary} amount={totalMortalFund}>Total Fund Needed At {submittedFreedomAge} years age for next {submittedLifeExpectancy - submittedFreedomAge} years</Fund>
           <Fund amount={monthlyExpenseAtFreedom}>Monthly expense at {submittedFreedomAge} years age</Fund>
           <Fund amount={totalImmortalFund}>Total fund needed At {submittedFreedomAge} years age to use forever</Fund>
         </FundContainer>

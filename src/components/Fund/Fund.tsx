@@ -1,23 +1,48 @@
 import { FunctionComponent } from 'react'
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+export enum FundPriority {
+    primary,
+    secondary
+}
 interface Props {
     amount: number
+    priority?: FundPriority
 }
+const titleBaseColor = "#858585";
+const amountBaseColor = "#4c4c4c";
 const FundTitle = styled.p`
-    margin:0;
     font-size: 14px;
-`;
+    font-weight: 500;
+    `;
 const FundAmount = styled.p`
-    margin: 0;
     font-size: 26px;
     font-weight: 600;
+    `;
+const Wrapper = styled.div<{ active?: boolean }>`
+    ${FundTitle},${FundAmount}{
+        margin:0;
+    }
+    ${FundAmount}{
+        color: ${amountBaseColor};
+    }
+    ${FundTitle}{
+        color:${titleBaseColor};
+        margin-bottom: 4px;
+    }
+    ${props => {
+        return props.active && css`
+            ${FundAmount}{
+                color: seagreen;
+            }
+        `;
+    }}
 `;
-const Fund: FunctionComponent<Props> = (props) => {
+const Fund: FunctionComponent<Props> = ({ children, amount, priority = FundPriority.secondary }) => {
     return (
-        <div>
-            <FundTitle>{props.children}</FundTitle>
-            <FundAmount>{props.amount}</FundAmount>
-        </div>
+        <Wrapper active={priority === FundPriority.primary ? true : false}>
+            <FundTitle>{children}</FundTitle>
+            <FundAmount>{amount}</FundAmount>
+        </Wrapper>
     )
 }
 
