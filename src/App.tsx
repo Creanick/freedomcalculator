@@ -1,5 +1,5 @@
 import { FormikErrors, useFormik } from "formik";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import Button from "./components/Button/Button";
 import Fund, { FundPriority } from "./components/Fund/Fund";
@@ -67,6 +67,7 @@ interface FormValues {
   postFreedomReturn: number
 }
 const App = () => {
+  const fundContainerRef = useRef<HTMLDivElement>();
   const formik = useFormik<FormValues>({
     initialValues: {
       monthlyExpense: 50000,
@@ -114,6 +115,10 @@ const App = () => {
         setTotalMortalFund(getMortalFund(values));
         setSubmittedFreedomAge(values.freedomAge);
         setSubmittedLifeExpectancy(values.lifeExpectancy);
+        if (fundContainerRef) {
+          fundContainerRef.current?.scrollIntoView();
+        }
+
       } catch (error) {
         console.error("Freedom Fund Calculation failed");
       }
@@ -169,7 +174,7 @@ const App = () => {
         </InputContainer>
       </InputSection>
       <ResultSection>
-        <FundContainer>
+        <FundContainer ref={fundContainerRef as any}>
           <Fund priority={FundPriority.primary} amount={totalMortalFund}>Total Fund Needed At {submittedFreedomAge} years age for next {submittedLifeExpectancy - submittedFreedomAge} years</Fund>
           <Fund amount={monthlyExpenseAtFreedom}>Monthly expense at {submittedFreedomAge} years age</Fund>
           <Fund amount={totalImmortalFund}>Total fund needed At {submittedFreedomAge} years age to use forever</Fund>
