@@ -2,6 +2,7 @@ import { FormikErrors, useFormik } from "formik";
 import { useState } from "react";
 import styled from "styled-components";
 import Button from "./components/Button/Button";
+import Header from "./components/Header/Header";
 import Input from "./components/Input/Input";
 import LabeledInput from "./components/LabeledInput/LabeledInput";
 import calculateCompoundedFutureMonthlyExpense from "./domain/logic/calculators/calculate_compounded_future_monthly_expense";
@@ -12,10 +13,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  .title{
-    font-weight: 600;
-    text-align: center;
-  }
 `;
 const inputContainerWidth = "300px";
 const InputContainer = styled.form`
@@ -121,7 +118,7 @@ const App = () => {
   const [totalImmortalFund, setTotalImmortalFund] = useState(0);
   return (
     <Wrapper>
-      <h1 className="title">Financial Freedom Calculator</h1>
+      <Header />
       <InputContainer onSubmit={formik.handleSubmit}>
 
         <LabeledInput id="expense" showError={formik.touched.expense} errorMessage={formik.errors.expense} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0" id="expense" value={expense} onChange={formik.handleChange} />}>Monthly Expense</LabeledInput>
