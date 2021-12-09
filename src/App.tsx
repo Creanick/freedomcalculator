@@ -2,6 +2,7 @@ import { FormikErrors, useFormik } from "formik";
 import { useState } from "react";
 import styled from "styled-components";
 import Button from "./components/Button/Button";
+import Fund from "./components/Fund/Fund";
 import Header from "./components/Header/Header";
 import Input from "./components/Input/Input";
 import LabeledInput from "./components/LabeledInput/LabeledInput";
@@ -10,9 +11,9 @@ import calculateImmortalFreedomFund from "./domain/logic/calculators/calculate_i
 import calculateMortalFreedomFund from "./domain/logic/calculators/calculate_mortal_freedom_fund";
 
 const Wrapper = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; */
 `;
 const inputContainerWidth = "300px";
 const InputContainer = styled.form`
@@ -25,21 +26,26 @@ const InputContainer = styled.form`
   @media screen and (max-width:${inputContainerWidth}){
     width:100%;
   }
-  .total-fund-container {
-    p{
-      font-weight: 600;
-      margin:0;
-      text-align: center;
-    }
-    p.total-fund{
-      color: seagreen;
-    }
-  }
+`;
+const ResultSection = styled.section`
+  background-color: dodgerblue;
+  padding: 80px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const FundContainer = styled.div`
+border-radius: 4px;
+  background-color: white;
+  padding: 24px;
+  max-width: 300px;
+  display: grid;
+  gap: 16px;
 `;
 const App = () => {
   const formik = useFormik({
     initialValues: {
-      expense: 50000,
+      monthlyExpense: 50000,
       currentAge: 20,
       freedomAge: 40,
       lifeExpectancy: 80,
@@ -48,15 +54,15 @@ const App = () => {
     },
     validate: values => {
       const errors: FormikErrors<{
-        expense: string;
+        monthlyExpense: string;
         currentAge: string;
         freedomAge: string;
         lifeExpectancy: string;
         inflationRate: string;
         postFreedomReturn: string;
       }> = {};
-      if (values.expense < 0) {
-        errors.expense = "Expense must be greater than or equal to 0";
+      if (values.monthlyExpense < 0) {
+        errors.monthlyExpense = "Monthly Expense must be greater than or equal to 0";
       }
       if (values.currentAge < 1) {
         errors.currentAge = "Current Age must be greater than 0";
@@ -85,7 +91,7 @@ const App = () => {
       return errors;
     },
     onSubmit: values => {
-      const params = { ...values, monthlyExpense: values.expense };
+      const params = { ...values };
       try {
         const monthlyExpenseAtFreedom = calculateCompoundedFutureMonthlyExpense({
           currentAge: params.currentAge,
@@ -107,42 +113,48 @@ const App = () => {
         setMonthlyExpenseAtFreedom(monthlyExpenseAtFreedom);
         setTotalImmortalFund(totalImmortalFreedomFund);
         setTotalMortalFund(totalMortalFreedomFund);
+        setSubmittedFreedomAge(values.freedomAge);
+        setSubmittedLifeExpectancy(values.lifeExpectancy);
       } catch (error) {
         console.error("Total Fund Calculation Error");
       }
     }
   })
-  const { currentAge, expense, freedomAge, inflationRate, lifeExpectancy, postFreedomReturn } = formik.values;
+  const { currentAge, monthlyExpense, freedomAge, inflationRate, lifeExpectancy, postFreedomReturn } = formik.values;
+  const [submittedFreedomAge, setSubmittedFreedomAge] = useState(formik.initialValues.freedomAge);
+  const [submittedLifeExpectancy, setSubmittedLifeExpectancy] = useState(formik.initialValues.lifeExpectancy);
   const [totalMortalFund, setTotalMortalFund] = useState(0);
   const [monthlyExpenseAtFreedom, setMonthlyExpenseAtFreedom] = useState(0);
   const [totalImmortalFund, setTotalImmortalFund] = useState(0);
+
   return (
     <Wrapper>
-      <Header />
-      <InputContainer onSubmit={formik.handleSubmit}>
+      <section className="input-section">
+        <Header />
+        <InputContainer onSubmit={formik.handleSubmit}>
 
-        <LabeledInput id="expense" showError={formik.touched.expense} errorMessage={formik.errors.expense} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0" id="expense" value={expense} onChange={formik.handleChange} />}>Monthly Expense</LabeledInput>
+          <LabeledInput id="monthlyExpense" showError={formik.touched.monthlyExpense} errorMessage={formik.errors.monthlyExpense} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0" id="monthlyExpense" value={monthlyExpense} onChange={formik.handleChange} />}>Monthly Expense</LabeledInput>
 
-        <LabeledInput id="currentAge" showError={formik.touched.currentAge} errorMessage={formik.errors.currentAge} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="currentAge" value={currentAge} onChange={formik.handleChange} />}>Current Age</LabeledInput>
+          <LabeledInput id="currentAge" showError={formik.touched.currentAge} errorMessage={formik.errors.currentAge} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="currentAge" value={currentAge} onChange={formik.handleChange} />}>Current Age</LabeledInput>
 
-        <LabeledInput id="freedomAge" showError={formik.touched.freedomAge} errorMessage={formik.errors.freedomAge} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="freedomAge" value={freedomAge} onChange={formik.handleChange} />}>Freedom Age</LabeledInput>
+          <LabeledInput id="freedomAge" showError={formik.touched.freedomAge} errorMessage={formik.errors.freedomAge} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="freedomAge" value={freedomAge} onChange={formik.handleChange} />}>Freedom Age</LabeledInput>
 
-        <LabeledInput id="lifeExpectancy" showError={formik.touched.lifeExpectancy} errorMessage={formik.errors.lifeExpectancy} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="lifeExpectancy" value={lifeExpectancy} onChange={formik.handleChange} />}>Life Expectancy</LabeledInput>
+          <LabeledInput id="lifeExpectancy" showError={formik.touched.lifeExpectancy} errorMessage={formik.errors.lifeExpectancy} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="lifeExpectancy" value={lifeExpectancy} onChange={formik.handleChange} />}>Life Expectancy</LabeledInput>
 
-        <LabeledInput id="inflationRate" showError={formik.touched.inflationRate} errorMessage={formik.errors.inflationRate} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="inflationRate" value={inflationRate} onChange={formik.handleChange} />}>Inflation Rate</LabeledInput>
+          <LabeledInput id="inflationRate" showError={formik.touched.inflationRate} errorMessage={formik.errors.inflationRate} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="inflationRate" value={inflationRate} onChange={formik.handleChange} />}>Inflation Rate</LabeledInput>
 
-        <LabeledInput id="postFreedomReturn" showError={formik.touched.postFreedomReturn} errorMessage={formik.errors.postFreedomReturn} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="postFreedomReturn" value={postFreedomReturn} onChange={formik.handleChange} />}>Post Freedom Return</LabeledInput>
+          <LabeledInput id="postFreedomReturn" showError={formik.touched.postFreedomReturn} errorMessage={formik.errors.postFreedomReturn} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="postFreedomReturn" value={postFreedomReturn} onChange={formik.handleChange} />}>Post Freedom Return</LabeledInput>
 
-        <Button type="submit" disabled={!formik.isValid}>Calculate</Button>
-        <div className="total-fund-container">
-          <p>Monthly Expense At Freedom Age</p>
-          <p className="total-fund">{Math.round(monthlyExpenseAtFreedom)}</p>
-          <p>Total Fund Needed without Life Expectancy</p>
-          <p className="total-fund">{Math.round(totalImmortalFund)}</p>
-          <p>Total Fund Needed</p>
-          <p className="total-fund">{Math.round(totalMortalFund)}</p>
-        </div>
-      </InputContainer>
+          <Button type="submit" disabled={!formik.isValid}>Calculate</Button>
+        </InputContainer>
+      </section>
+      <ResultSection>
+        <FundContainer>
+          <Fund amount={totalMortalFund}>Total Fund Needed At {submittedFreedomAge} years age for next {submittedLifeExpectancy - submittedFreedomAge} years</Fund>
+          <Fund amount={monthlyExpenseAtFreedom}>Monthly expense at {submittedFreedomAge} years age</Fund>
+          <Fund amount={totalImmortalFund}>Total fund needed At {submittedFreedomAge} years age to use forever</Fund>
+        </FundContainer>
+      </ResultSection>
     </Wrapper>
   );
 }
