@@ -82,14 +82,14 @@ const App = () => {
       if (values.monthlyExpense < 0) {
         errors.monthlyExpense = "Monthly Expense must be greater than or equal to 0";
       }
-      if (values.currentAge < 1) {
-        errors.currentAge = "Current Age must be greater than 0";
+      if (values.currentAge < 1 || values.currentAge > 200) {
+        errors.currentAge = "Current Age must be between 1 and 200";
       }
-      if (values.freedomAge < 1) {
-        errors.freedomAge = "Freedom Age must be greater than 0";
+      if (values.freedomAge < 1 || values.freedomAge > 200) {
+        errors.freedomAge = "Freedom Age must be between 1 and 200";
       }
-      if (values.lifeExpectancy < 1) {
-        errors.lifeExpectancy = "Life Expentancy must be greater than 0";
+      if (values.lifeExpectancy < 1 || values.lifeExpectancy > 200) {
+        errors.lifeExpectancy = "Life Expentancy must be between 1 and 200";
       }
       if (values.inflationRate < 0) {
         errors.inflationRate = "Inflation rate must be positive";
