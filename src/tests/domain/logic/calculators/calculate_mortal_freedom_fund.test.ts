@@ -82,6 +82,17 @@ describe('Calculate Mortal Freedom Fund function tests => ', () => {
         const totalFund = calculateMortalFreedomFund(params);
         expect(totalFund).toBe(0);
     })
+    test("should return correct fund when total years is very big", () => {
+        const params: CalculateFreedomFund = {
+            monthlyExpense: 5486,
+            totalYears: 20000,
+            inflationRate: 8,
+            postFreedomReturn: 21
+        }
+        const totalFund = calculateMortalFreedomFund(params);
+        const expectedTotalFund = 506400;
+        expect(totalFund).toBe(expectedTotalFund);
+    })
     describe('should return correct fund for different params', () => {
         test("#1 Test when total years is 0", () => {
             const params: CalculateFreedomFund = {

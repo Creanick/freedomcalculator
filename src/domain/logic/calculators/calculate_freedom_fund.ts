@@ -24,14 +24,15 @@ const calculateFreedomFund = (params: CalculateFreedomFund) => {
         throw RangeError("Post freedom return must be greater than inflation rate");
     }
     const y = monthlyExpense * 12;
-    let totalFund: number;
-    if (totalYears === Infinity) {
+    const a = 1 + (postFreedomReturn / 100);
+    const b = 1 + (inflationRate / 100);
+    const n = totalYears;
+    let totalFund = y * (Math.pow(a, n) - Math.pow(b, n)) / ((a - b) * Math.pow(a, n))
+    if (totalYears === Infinity || isNaN(totalFund)) {
         totalFund = y * 100 / totalReturn;
-    } else {
-        const a = 1 + (postFreedomReturn / 100);
-        const b = 1 + (inflationRate / 100);
-        const n = totalYears;
-        totalFund = y * (Math.pow(a, n) - Math.pow(b, n)) / ((a - b) * Math.pow(a, n))
+    }
+    if (isNaN(totalFund)) {
+        totalFund = 0;
     }
     return Math.round(totalFund);
 }
