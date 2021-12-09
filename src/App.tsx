@@ -42,8 +42,16 @@ border-radius: 4px;
   display: grid;
   gap: 16px;
 `;
+interface FormValues {
+  monthlyExpense: number
+  currentAge: number
+  freedomAge: number
+  lifeExpectancy: number
+  inflationRate: number
+  postFreedomReturn: number
+}
 const App = () => {
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues: {
       monthlyExpense: 50000,
       currentAge: 20,
@@ -53,14 +61,7 @@ const App = () => {
       postFreedomReturn: 10
     },
     validate: values => {
-      const errors: FormikErrors<{
-        monthlyExpense: string;
-        currentAge: string;
-        freedomAge: string;
-        lifeExpectancy: string;
-        inflationRate: string;
-        postFreedomReturn: string;
-      }> = {};
+      const errors: FormikErrors<FormValues> = {};
       if (values.monthlyExpense < 0) {
         errors.monthlyExpense = "Monthly Expense must be greater than or equal to 0";
       }
@@ -91,41 +92,44 @@ const App = () => {
       return errors;
     },
     onSubmit: values => {
-      const params = { ...values };
       try {
-        const monthlyExpenseAtFreedom = calculateCompoundedFutureMonthlyExpense({
-          currentAge: params.currentAge,
-          futureAge: params.freedomAge,
-          currentMonthlyExpense: params.monthlyExpense,
-          inflationRate: params.inflationRate
-        });
-        const totalImmortalFreedomFund = calculateImmortalFreedomFund({
-          inflationRate: params.inflationRate,
-          postFreedomReturn: params.postFreedomReturn,
-          monthlyExpense: monthlyExpenseAtFreedom
-        });
-        const totalMortalFreedomFund = calculateMortalFreedomFund({
-          inflationRate: params.inflationRate,
-          monthlyExpense: monthlyExpenseAtFreedom,
-          postFreedomReturn: params.postFreedomReturn,
-          totalYears: params.lifeExpectancy - params.freedomAge
-        })
-        setMonthlyExpenseAtFreedom(monthlyExpenseAtFreedom);
-        setTotalImmortalFund(totalImmortalFreedomFund);
-        setTotalMortalFund(totalMortalFreedomFund);
+        setMonthlyExpenseAtFreedom(getMonthlyExpenseAtFreedom(values));
+        setTotalImmortalFund(getTotalImmortalFund(values));
+        setTotalMortalFund(getMortalFund(values));
         setSubmittedFreedomAge(values.freedomAge);
         setSubmittedLifeExpectancy(values.lifeExpectancy);
       } catch (error) {
-        console.error("Total Fund Calculation Error");
+        console.error("Freedom Fund Calculation failed");
       }
     }
   })
-  const { currentAge, monthlyExpense, freedomAge, inflationRate, lifeExpectancy, postFreedomReturn } = formik.values;
+  const getMonthlyExpenseAtFreedom = (values: FormValues) => {
+    return calculateCompoundedFutureMonthlyExpense({
+      currentAge: values.currentAge,
+      futureAge: values.freedomAge,
+      currentMonthlyExpense: values.monthlyExpense,
+      inflationRate: values.inflationRate
+    });
+  }
+  const getTotalImmortalFund = (values: FormValues) => {
+    return calculateImmortalFreedomFund({
+      ...values,
+      monthlyExpense: getMonthlyExpenseAtFreedom(values)
+    });
+  }
+  const getMortalFund = (values: FormValues) => {
+    return calculateMortalFreedomFund({
+      inflationRate: values.inflationRate,
+      monthlyExpense: getMonthlyExpenseAtFreedom(values),
+      postFreedomReturn: values.postFreedomReturn,
+      totalYears: values.lifeExpectancy - values.freedomAge
+    });
+  }
   const [submittedFreedomAge, setSubmittedFreedomAge] = useState(formik.initialValues.freedomAge);
   const [submittedLifeExpectancy, setSubmittedLifeExpectancy] = useState(formik.initialValues.lifeExpectancy);
-  const [totalMortalFund, setTotalMortalFund] = useState(0);
-  const [monthlyExpenseAtFreedom, setMonthlyExpenseAtFreedom] = useState(0);
-  const [totalImmortalFund, setTotalImmortalFund] = useState(0);
+  const [totalMortalFund, setTotalMortalFund] = useState(getMortalFund(formik.initialValues));
+  const [monthlyExpenseAtFreedom, setMonthlyExpenseAtFreedom] = useState(getMonthlyExpenseAtFreedom(formik.initialValues));
+  const [totalImmortalFund, setTotalImmortalFund] = useState(getTotalImmortalFund(formik.initialValues));
 
   return (
     <Wrapper>
@@ -133,17 +137,17 @@ const App = () => {
         <Header />
         <InputContainer onSubmit={formik.handleSubmit}>
 
-          <LabeledInput id="monthlyExpense" showError={formik.touched.monthlyExpense} errorMessage={formik.errors.monthlyExpense} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0" id="monthlyExpense" value={monthlyExpense} onChange={formik.handleChange} />}>Monthly Expense</LabeledInput>
+          <LabeledInput id="monthlyExpense" showError={formik.touched.monthlyExpense} errorMessage={formik.errors.monthlyExpense} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0" id="monthlyExpense" value={formik.values.monthlyExpense} onChange={formik.handleChange} />}>Monthly Expense</LabeledInput>
 
-          <LabeledInput id="currentAge" showError={formik.touched.currentAge} errorMessage={formik.errors.currentAge} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="currentAge" value={currentAge} onChange={formik.handleChange} />}>Current Age</LabeledInput>
+          <LabeledInput id="currentAge" showError={formik.touched.currentAge} errorMessage={formik.errors.currentAge} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="currentAge" value={formik.values.currentAge} onChange={formik.handleChange} />}>Current Age</LabeledInput>
 
-          <LabeledInput id="freedomAge" showError={formik.touched.freedomAge} errorMessage={formik.errors.freedomAge} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="freedomAge" value={freedomAge} onChange={formik.handleChange} />}>Freedom Age</LabeledInput>
+          <LabeledInput id="freedomAge" showError={formik.touched.freedomAge} errorMessage={formik.errors.freedomAge} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="freedomAge" value={formik.values.freedomAge} onChange={formik.handleChange} />}>Freedom Age</LabeledInput>
 
-          <LabeledInput id="lifeExpectancy" showError={formik.touched.lifeExpectancy} errorMessage={formik.errors.lifeExpectancy} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="lifeExpectancy" value={lifeExpectancy} onChange={formik.handleChange} />}>Life Expectancy</LabeledInput>
+          <LabeledInput id="lifeExpectancy" showError={formik.touched.lifeExpectancy} errorMessage={formik.errors.lifeExpectancy} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="lifeExpectancy" value={formik.values.lifeExpectancy} onChange={formik.handleChange} />}>Life Expectancy</LabeledInput>
 
-          <LabeledInput id="inflationRate" showError={formik.touched.inflationRate} errorMessage={formik.errors.inflationRate} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="inflationRate" value={inflationRate} onChange={formik.handleChange} />}>Inflation Rate</LabeledInput>
+          <LabeledInput id="inflationRate" showError={formik.touched.inflationRate} errorMessage={formik.errors.inflationRate} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="inflationRate" value={formik.values.inflationRate} onChange={formik.handleChange} />}>Inflation Rate</LabeledInput>
 
-          <LabeledInput id="postFreedomReturn" showError={formik.touched.postFreedomReturn} errorMessage={formik.errors.postFreedomReturn} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="postFreedomReturn" value={postFreedomReturn} onChange={formik.handleChange} />}>Post Freedom Return</LabeledInput>
+          <LabeledInput id="postFreedomReturn" showError={formik.touched.postFreedomReturn} errorMessage={formik.errors.postFreedomReturn} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="postFreedomReturn" value={formik.values.postFreedomReturn} onChange={formik.handleChange} />}>Post Freedom Return</LabeledInput>
 
           <Button type="submit" disabled={!formik.isValid}>Calculate</Button>
         </InputContainer>
