@@ -6,6 +6,11 @@ import Input from "../Input/Input";
 import LabeledInput from "../LabeledInput/LabeledInput";
 
 const wrapperWidth = "300px";
+const Container = styled.div`
+    display: flex;
+    justify-content:center;
+    align-items: center;
+`;
 const Wrapper = styled.form`
     box-sizing: border-box;
     width: ${wrapperWidth};
@@ -73,19 +78,21 @@ const FreedomFundForm: FunctionComponent<Props> = ({ onSubmit, isValid = false, 
             },
         ];
     return (
-        <Wrapper onSubmit={onSubmit} className={className}>
-            {
-                freedomFundFormInputProperties.map(({ id, inputType, label, placeholder }) => {
-                    const isError = touched[id] && (errors[id] !== undefined);
-                    return (
-                        <LabeledInput key={id} idFor={id} showError={isError} errorMessage={errors[id]} inputElement={<Input error={isError} type={inputType}
-                            onBlur={onBlur} onFocus={onFocus} placeholder={placeholder} id={id} value={values[id]} onChange={onChange} />}>{label}</LabeledInput>
-                    )
+        <Container>
+            <Wrapper onSubmit={onSubmit} className={className}>
+                {
+                    freedomFundFormInputProperties.map(({ id, inputType, label, placeholder }) => {
+                        const isError = touched[id] && (errors[id] !== undefined);
+                        return (
+                            <LabeledInput key={id} idFor={id} showError={isError} errorMessage={errors[id]} inputElement={<Input error={isError} type={inputType}
+                                onBlur={onBlur} onFocus={onFocus} placeholder={placeholder} id={id} value={values[id]} onChange={onChange} />}>{label}</LabeledInput>
+                        )
 
-                })
-            }
-            <Button type="submit" disabled={!isValid}>Calculate</Button>
-        </Wrapper>
+                    })
+                }
+                <Button type="submit" disabled={!isValid}>Calculate</Button>
+            </Wrapper>
+        </Container>
     )
 }
 

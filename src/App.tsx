@@ -18,9 +18,6 @@ const InputSection = styled.section`
     display: grid;
     grid-template-rows: auto 1fr;
     align-items: center;
-    form{
-      justify-self: center;
-    }
 `;
 const ResultSection = styled.section`
   background-image: linear-gradient(0deg, #aad4ff, transparent);
