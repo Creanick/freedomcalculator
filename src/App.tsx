@@ -81,8 +81,8 @@ const App = () => {
     },
     validate: values => {
       const errors: FormikErrors<FormValues> = {};
-      if (values.monthlyExpense < 0) {
-        errors.monthlyExpense = "Monthly Expense must be greater than or equal to 0";
+      if (values.monthlyExpense < 0 || values.monthlyExpense > 999999999) {
+        errors.monthlyExpense = "Monthly Expense is out of normal range";
       }
       if (values.currentAge < 1 || values.currentAge > 200) {
         errors.currentAge = "Current Age must be between 1 and 200";
