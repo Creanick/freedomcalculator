@@ -1,11 +1,9 @@
 import { useRef } from "react";
 import styled from "styled-components";
-import Button from "./components/Button/Button";
+import FreedomFundForm from "./components/FreedomFundForm/FreedomFundForm";
 import Fund, { FundPriority } from "./components/Fund/Fund";
 import Header from "./components/Header/Header";
-import Input from "./components/Input/Input";
-import LabeledInput from "./components/LabeledInput/LabeledInput";
-import useFreedomFundForm, { FreedomFormValues } from "./hooks/use_freedom_fund_form";
+import useFreedomFundForm from "./hooks/use_freedom_fund_form";
 
 const sectionBreakPoint = "850px"
 const Wrapper = styled.div`
@@ -16,23 +14,11 @@ const Wrapper = styled.div`
     grid-template-columns: 1fr 1fr;
   }
 `;
-const inputContainerWidth = "300px";
-const InputContainer = styled.form`
-  box-sizing: border-box;
-  width: ${inputContainerWidth};
-  max-width: ${inputContainerWidth};
-  padding: 20px;
-  display: grid;
-  gap:18px;
-  @media screen and (max-width:${inputContainerWidth}){
-    width:100%;
-  }
-`;
 const InputSection = styled.section`
     display: grid;
     grid-template-rows: auto 1fr;
     align-items: center;
-    ${InputContainer}{
+    form{
       justify-self: center;
     }
 `;
@@ -66,66 +52,13 @@ const App = () => {
       }
     }
   });
-  const freedomFundFormInputProperties: {
-    id: keyof FreedomFormValues,
-    inputType: string,
-    placeholder: string,
-    label: string
-  }[] = [
-      {
-        id: "monthlyExpense",
-        placeholder: "0",
-        inputType: "number",
-        label: "Monthly Expense"
-      },
-      {
-        id: "currentAge",
-        placeholder: "0 years",
-        inputType: "number",
-        label: "Current Age"
-      },
-      {
-        id: "freedomAge",
-        placeholder: "0 years",
-        inputType: "number",
-        label: "Freedom Age"
-      },
-      {
-        id: "lifeExpectancy",
-        placeholder: "0 years",
-        inputType: "number",
-        label: "LifeExpectancy"
-      },
-      {
-        id: "inflationRate",
-        placeholder: "0%",
-        inputType: "number",
-        label: "Inflation Rate"
-      },
-      {
-        id: "postFreedomReturn",
-        placeholder: "0%",
-        inputType: "number",
-        label: "Post Freedom Return"
-      },
-    ];
   return (
     <Wrapper>
       <InputSection>
         <Header />
-        <InputContainer onSubmit={freedomFundFormik.handleSubmit}>
-          {
-            freedomFundFormInputProperties.map(({ id, inputType, label, placeholder }) => {
-              const isError = freedomFundFormik.touched[id] && (freedomFundFormik.errors[id] !== undefined);
-              return (
-                <LabeledInput key={id} idFor={id} showError={isError} errorMessage={freedomFundFormik.errors[id]} inputElement={<Input error={isError} type={inputType}
-                  onBlur={freedomFundFormik.handleBlur} onFocus={freedomFundFormik.handleFocus} placeholder={placeholder} id={id} value={freedomFundFormik.currentValues[id]} onChange={freedomFundFormik.handleChange} />}>{label}</LabeledInput>
-              )
-
-            })
-          }
-          <Button type="submit" disabled={!freedomFundFormik.isValid}>Calculate</Button>
-        </InputContainer>
+        <FreedomFundForm onSubmit={freedomFundFormik.handleSubmit} errors={freedomFundFormik.errors} touched={freedomFundFormik.touched}
+          values={freedomFundFormik.currentValues} isValid={freedomFundFormik.isValid} onBlur={freedomFundFormik.handleBlur}
+          onChange={freedomFundFormik.handleChange} onFocus={freedomFundFormik.handleFocus} />
       </InputSection>
       <ResultSection>
         <FundContainer ref={fundContainerRef as any}>
