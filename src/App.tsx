@@ -153,25 +153,62 @@ const App = () => {
   const [totalMortalFund, setTotalMortalFund] = useState(getMortalFund(formik.initialValues));
   const [monthlyExpenseAtFreedom, setMonthlyExpenseAtFreedom] = useState(getMonthlyExpenseAtFreedom(formik.initialValues));
   const [totalImmortalFund, setTotalImmortalFund] = useState(getTotalImmortalFund(formik.initialValues));
-
+  const labelInputLists: {
+    id: keyof FormValues,
+    inputType: string,
+    placeholder: string,
+    label: string
+  }[] = [
+      {
+        id: "monthlyExpense",
+        placeholder: "0",
+        inputType: "number",
+        label: "Monthly Expense"
+      },
+      {
+        id: "currentAge",
+        placeholder: "0 years",
+        inputType: "number",
+        label: "Current Age"
+      },
+      {
+        id: "freedomAge",
+        placeholder: "0 years",
+        inputType: "number",
+        label: "Freedom Age"
+      },
+      {
+        id: "lifeExpectancy",
+        placeholder: "0 years",
+        inputType: "number",
+        label: "LifeExpectancy"
+      },
+      {
+        id: "inflationRate",
+        placeholder: "0%",
+        inputType: "number",
+        label: "Inflation Rate"
+      },
+      {
+        id: "postFreedomReturn",
+        placeholder: "0%",
+        inputType: "number",
+        label: "Post Freedom Return"
+      },
+    ];
   return (
     <Wrapper>
       <InputSection>
         <Header />
         <InputContainer onSubmit={formik.handleSubmit}>
-
-          <LabeledInput id="monthlyExpense" showError={formik.touched.monthlyExpense} errorMessage={formik.errors.monthlyExpense} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0" id="monthlyExpense" value={formik.values.monthlyExpense} onChange={formik.handleChange} />}>Monthly Expense</LabeledInput>
-
-          <LabeledInput id="currentAge" showError={formik.touched.currentAge} errorMessage={formik.errors.currentAge} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="currentAge" value={formik.values.currentAge} onChange={formik.handleChange} />}>Current Age</LabeledInput>
-
-          <LabeledInput id="freedomAge" showError={formik.touched.freedomAge} errorMessage={formik.errors.freedomAge} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="freedomAge" value={formik.values.freedomAge} onChange={formik.handleChange} />}>Freedom Age</LabeledInput>
-
-          <LabeledInput id="lifeExpectancy" showError={formik.touched.lifeExpectancy} errorMessage={formik.errors.lifeExpectancy} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0 year" id="lifeExpectancy" value={formik.values.lifeExpectancy} onChange={formik.handleChange} />}>Life Expectancy</LabeledInput>
-
-          <LabeledInput id="inflationRate" showError={formik.touched.inflationRate} errorMessage={formik.errors.inflationRate} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="inflationRate" value={formik.values.inflationRate} onChange={formik.handleChange} />}>Inflation Rate</LabeledInput>
-
-          <LabeledInput id="postFreedomReturn" showError={formik.touched.postFreedomReturn} errorMessage={formik.errors.postFreedomReturn} inputElement={<Input type="number" onBlur={formik.handleBlur} placeholder="0%" id="postFreedomReturn" value={formik.values.postFreedomReturn} onChange={formik.handleChange} />}>Post Freedom Return</LabeledInput>
-
+          {
+            labelInputLists.map(({ id, inputType, label, placeholder }) => {
+              const isError = formik.touched[id] && (formik.errors[id] !== undefined);
+              return (
+                <LabeledInput key={id} id={id} showError={isError} errorMessage={formik.errors[id]} inputElement={<Input error={isError} type={inputType} onBlur={formik.handleBlur} placeholder={placeholder} id={id} value={formik.values[id]} onChange={formik.handleChange} />}>{label}</LabeledInput>
+              )
+            })
+          }
           <Button type="submit" disabled={!formik.isValid}>Calculate</Button>
         </InputContainer>
       </InputSection>
