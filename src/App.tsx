@@ -118,9 +118,10 @@ const App = () => {
             freedomFundFormInputProperties.map(({ id, inputType, label, placeholder }) => {
               const isError = freedomFundFormik.touched[id] && (freedomFundFormik.errors[id] !== undefined);
               return (
-                <LabeledInput key={id} id={id} showError={isError} errorMessage={freedomFundFormik.errors[id]} inputElement={<Input error={isError} type={inputType}
+                <LabeledInput key={id} idFor={id} showError={isError} errorMessage={freedomFundFormik.errors[id]} inputElement={<Input error={isError} type={inputType}
                   onBlur={freedomFundFormik.handleBlur} onFocus={freedomFundFormik.handleFocus} placeholder={placeholder} id={id} value={freedomFundFormik.currentValues[id]} onChange={freedomFundFormik.handleChange} />}>{label}</LabeledInput>
               )
+
             })
           }
           <Button type="submit" disabled={!freedomFundFormik.isValid}>Calculate</Button>

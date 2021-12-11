@@ -14,14 +14,14 @@ const Wrapper = styled.div`
 `;
 interface Props {
     inputElement: JSX.Element
-    id: string
+    idFor: string
     errorMessage?: string
     showError?: boolean
 }
-const LabeledInput: FunctionComponent<Props> = ({ id, children, inputElement, errorMessage, showError }) => {
+const LabeledInput: FunctionComponent<Props> = ({ idFor, children, inputElement, errorMessage, showError }) => {
     return (
         <Wrapper>
-            <label htmlFor={id}>{children}</label>
+            <label htmlFor={idFor}>{children}</label>
             {inputElement}
             <ErrorLabel message={errorMessage} show={showError} />
         </Wrapper>
