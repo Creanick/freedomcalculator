@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 import Fund, { FundPriority } from '../Fund/Fund';
 const Wrapper = styled.div`
@@ -13,7 +13,6 @@ const Wrapper = styled.div`
     overflow: auto;
 `;
 interface Props {
-    ref: React.MutableRefObject<HTMLDivElement | undefined>
     monthlyExpenseAtFreedom: number,
     fundValues: {
         mortalFund: number,
@@ -22,7 +21,7 @@ interface Props {
     freedomAge: number,
     lifeExpectancy: number
 }
-const FreedomFundResultCard: FunctionComponent<Props> = ({ ref, freedomAge, fundValues, lifeExpectancy, monthlyExpenseAtFreedom }) => {
+const FreedomFundResultCard = React.forwardRef<any, Props>(({ freedomAge, fundValues, lifeExpectancy, monthlyExpenseAtFreedom }, ref) => {
     return (
         <Wrapper ref={ref as any}>
             <Fund priority={FundPriority.primary} amount={fundValues.mortalFund}>Total Fund Needed At {freedomAge} years age for next {lifeExpectancy - freedomAge} years</Fund>
@@ -30,6 +29,6 @@ const FreedomFundResultCard: FunctionComponent<Props> = ({ ref, freedomAge, fund
             <Fund amount={fundValues.immortalFund}>Total fund needed At {freedomAge} years age to use forever</Fund>
         </Wrapper>
     )
-}
+})
 
 export default FreedomFundResultCard
