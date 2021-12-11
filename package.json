@@ -30,9 +30,11 @@
     "predeploy": "npm run build",
     "deploy": "netlify deploy --dir=build --prod"
   },
-  "pre-commit": [
-    "test"
-  ],
+  "hooks": {
+    "pre-commit": [
+      "test"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
