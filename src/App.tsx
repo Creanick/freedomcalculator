@@ -196,6 +196,9 @@ const App = () => {
         label: "Post Freedom Return"
       },
     ];
+  const handleFocus = (id: keyof FormValues) => {
+    formik.setFieldTouched(id);
+  }
   return (
     <Wrapper>
       <InputSection>
@@ -205,7 +208,8 @@ const App = () => {
             labelInputLists.map(({ id, inputType, label, placeholder }) => {
               const isError = formik.touched[id] && (formik.errors[id] !== undefined);
               return (
-                <LabeledInput key={id} id={id} showError={isError} errorMessage={formik.errors[id]} inputElement={<Input error={isError} type={inputType} onBlur={formik.handleBlur} placeholder={placeholder} id={id} value={formik.values[id]} onChange={formik.handleChange} />}>{label}</LabeledInput>
+                <LabeledInput key={id} id={id} showError={isError} errorMessage={formik.errors[id]} inputElement={<Input error={isError} type={inputType}
+                  onBlur={formik.handleBlur} onFocus={() => handleFocus(id)} placeholder={placeholder} id={id} value={formik.values[id]} onChange={formik.handleChange} />}>{label}</LabeledInput>
               )
             })
           }
