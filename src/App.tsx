@@ -101,11 +101,14 @@ const App = () => {
       }
       if ((values.freedomAge - values.currentAge) < 0) {
         errors.freedomAge = "Freedom Age must be greater or equal to current age";
+        errors.currentAge = "Current Age must be less than or equal to freedom age";
       }
       if ((values.lifeExpectancy - values.freedomAge) < 0) {
+        errors.freedomAge = "Freedom Age must be less than or equals to life expectancy";
         errors.lifeExpectancy = "Life Expectancy must be greater or equal to freedom age"
       }
       if (values.postFreedomReturn <= values.inflationRate) {
+        errors.inflationRate = "Inflation rate must be less than post freedom return";
         errors.postFreedomReturn = "Post Freedom Return Rate must be greater than inflation rate";
       }
       return errors;
