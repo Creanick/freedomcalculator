@@ -25,7 +25,9 @@
     "test": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve": "serve build"
+    "serve": "serve build",
+    "predeploy": "npm run build",
+    "deploy": "netlify deploy --dir=build --prod"
   },
   "pre-commit": [
     "test"
@@ -50,6 +52,7 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.16",
+    "netlify-cli": "^8.0.20",
     "pre-commit": "^1.2.2",
     "serve": "^13.0.2"
   }
