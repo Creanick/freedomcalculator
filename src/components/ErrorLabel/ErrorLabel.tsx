@@ -6,18 +6,14 @@ const Wrapper = styled.p`
     font-size: 12px;
     `;
 interface Props {
-    message?: string,
-    show?: boolean
+    message?: string
 }
-const ErrorLabel: FunctionComponent<Props> = ({ message, show = false }) => {
-    if (message && show) {
-        return (
-            <Wrapper>
-                {message}
-            </Wrapper>
-        )
-    }
-    return null;
+const ErrorLabel: FunctionComponent<Props> = ({ message }) => {
+    return (
+        <Wrapper>
+            {message}
+        </Wrapper>
+    )
 }
 
 export default ErrorLabel
