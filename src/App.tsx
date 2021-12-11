@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import styled from "styled-components";
 import FreedomFundForm from "./components/FreedomFundForm/FreedomFundForm";
-import Fund, { FundPriority } from "./components/Fund/Fund";
+import FreedomFundResultCard from "./components/FreedomFundResultCard/FreedomFundResultCard";
 import Header from "./components/Header/Header";
 import useFreedomFundForm from "./hooks/use_freedom_fund_form";
 
@@ -32,23 +32,12 @@ const ResultSection = styled.section`
     background-image: linear-gradient(270deg, #aad4ff, transparent);
   }
 `;
-const FundContainer = styled.div`
-  border-radius: 4px;
-  background-color: white;
-  box-shadow: 12px 13px 39px -7px #0000001c;
-  padding: 40px;
-  display: grid;
-  gap: 16px;
-  max-width: 380px;
-  box-sizing: border-box;
-  overflow: auto;
-`;
 const App = () => {
-  const fundContainerRef = useRef<HTMLDivElement>();
+  const resultCardRef = useRef<HTMLDivElement>();
   const freedomFundFormik = useFreedomFundForm({
     onSubmit: (_) => {
-      if (fundContainerRef && fundContainerRef.current) {
-        fundContainerRef.current.scrollIntoView();
+      if (resultCardRef && resultCardRef.current) {
+        resultCardRef.current.scrollIntoView();
       }
     }
   });
@@ -61,11 +50,9 @@ const App = () => {
           onChange={freedomFundFormik.handleChange} onFocus={freedomFundFormik.handleFocus} />
       </InputSection>
       <ResultSection>
-        <FundContainer ref={fundContainerRef as any}>
-          <Fund priority={FundPriority.primary} amount={freedomFundFormik.mortalFund}>Total Fund Needed At {freedomFundFormik.submittedValues.freedomAge} years age for next {freedomFundFormik.submittedValues.lifeExpectancy - freedomFundFormik.submittedValues.freedomAge} years</Fund>
-          <Fund amount={freedomFundFormik.monthlyExpenseAtFreedom}>Monthly expense at {freedomFundFormik.submittedValues.freedomAge} years age</Fund>
-          <Fund amount={freedomFundFormik.immortalFund}>Total fund needed At {freedomFundFormik.submittedValues.freedomAge} years age to use forever</Fund>
-        </FundContainer>
+        <FreedomFundResultCard ref={resultCardRef} freedomAge={freedomFundFormik.submittedValues.freedomAge} lifeExpectancy={freedomFundFormik.submittedValues.lifeExpectancy}
+          fundValues={{ mortalFund: freedomFundFormik.mortalFund, immortalFund: freedomFundFormik.immortalFund }} monthlyExpenseAtFreedom={freedomFundFormik.monthlyExpenseAtFreedom}
+        />
       </ResultSection>
     </Wrapper>
   );
