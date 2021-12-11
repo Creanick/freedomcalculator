@@ -54,9 +54,11 @@ const FundContainer = styled.div`
   background-color: white;
   box-shadow: 12px 13px 39px -7px #0000001c;
   padding: 40px;
-  max-width: 300px;
   display: grid;
   gap: 16px;
+  max-width: 380px;
+  box-sizing: border-box;
+  overflow: auto;
 `;
 interface FormValues {
   monthlyExpense: number
