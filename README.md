@@ -4,6 +4,8 @@
 
 Welcome to Freedom Calculator, a powerful single-page application built with React. This intuitive tool helps individuals calculate the amount of money they need to achieve financial freedom based on factors like inflation rate, saving amount, saving frequency, and return rate. This README provides an overview of the app's features, installation instructions, and highlights its potential.
 
+### [Visit Site](https://freedomcalculator.manickjamadar.com)
+
 ## Features
 
 - **Financial Freedom Calculation**: Freedom Calculator allows users to calculate the required savings needed to attain financial freedom based on their specified inputs. By considering factors like inflation rate, saving amount, saving frequency, and return rate, users gain valuable insights into their financial goals.
